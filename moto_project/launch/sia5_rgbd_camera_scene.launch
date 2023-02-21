@@ -1,0 +1,41 @@
+<launch>
+
+  <!-- All basic features like loading the fundamental parameters, the robot description parameters
+  etc. are imported from basic.launch, so refer to that -->
+  <arg name="set_joints" default="true" />
+  <include file="$(find moto_project)/launch/basic.launch">
+    <arg name="set_joints" value="$(arg set_joints)" />
+    <arg name="model_name" value="sia5_with_rgbd_camera.urdf.xacro"/>
+  </include>
+
+  <!-- topic to publish the images of the camera -->
+  <arg name="image_topic" default="/sia5/rgbd/color/image_raw" />
+  <arg name="depth_topic" default="/sia5/rgbd/depth/image_raw" />
+  <arg name="point_cloud_topic" default="/sia5/rgbd/depth/points" />
+
+  <!-- models parameters -->
+  <arg name="x_table_offset" default="0.8" />
+  <arg name="z_coffee_can_offset" default="0.28" />
+
+  <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF model -->
+  <node name="urdf_spawner2" pkg="gazebo_ros"
+    type="spawn_model" respawn="false" output="screen"
+    args="-file $(find motoman_description)/urdf/objects/table/table.urdf -urdf -model cafe_table -x $(arg x_table_offset)" /> 
+
+  <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF model -->
+  <node
+    name="urdf_spawner3" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
+    args="-file $(find motoman_description)/urdf/objects/coffee/coffee_can.urdf -urdf -model coffee_can -x $(arg x_table_offset) 
+    -z $(arg z_coffee_can_offset) -wait cafe_table" /> 
+
+  <node name="image_viewer" pkg="rqt_image_view" type="rqt_image_view" 
+  args="$(arg image_topic)" />
+    
+    <node name="depth_viewer" pkg="rqt_image_view" type="rqt_image_view" 
+    args="$(arg depth_topic)" />
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find moto_project)/rviz/rgbd_config.rviz"/>
+    
+
+  <!-- ros_control motoman launch file -->
+</launch>

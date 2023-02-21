@@ -1,0 +1,69 @@
+<launch>
+
+  <!-- gazebo parameters -->
+  <arg name="model_name" default="sia5.urdf.xacro" />
+  <arg name="model" default="$(find motoman_description)/robots/sia5/my_urdf/$(arg model_name)" />
+  <arg name="paused" default="false" />
+  <arg name="use_sim_time" default="true" />
+  <arg name="gazebo_gui" default="true" />
+  <arg name="headless" default="false" />
+  <arg name="debug" default="false" />
+  <arg name="world_name" default="default.world" />
+  <arg name="world_path" default="$(find moto_project)/worlds/$(arg world_name)" />
+  
+  <!-- custom parameters -->
+  <arg name="joint_gui" default="false" />
+  <arg name="position_topic_name" default="/gazebo/position_cmd" />
+  
+   <!-- set this parameter true if you want to move the joints in a pure kinematic way, whitout control or physics -->
+  <arg name="set_joints" default="false" />
+
+
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world_path)" />
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gazebo_gui)" />
+    <arg name="paused" value="$(arg paused)" />
+    <arg name="use_sim_time" value="$(arg use_sim_time)" />
+    <arg name="headless" value="$(arg headless)" />
+  </include>
+
+  <!-- Load the URDF into the ROS Parameter Server -->
+  <param name="robot_description" command="$(find xacro)/xacro $(arg model) set_joints:=$(arg set_joints)" />
+  
+  <!-- name of the topic that receives desidered joints effort -->
+  <param name="desidered_effort_topic_param" type="string" value="/gazebo/effort_cmd" />
+
+    <!-- name of the topic that receives desidered joints position if set_joints is set to true-->
+  <param name="desidered_position_topic_param" type="string" value="$(arg position_topic_name)" if="$(arg set_joints)"/>
+
+  <!-- Load joint names into the ROS Parameter Server -->
+  <rosparam param="joint_names">
+    ["joint_s","joint_l","joint_e","joint_u","joint_r","joint_b","joint_t",]</rosparam>
+
+  <!--joint_state_publisher reads its parameter "source_list" from the parameter server, so we need to load that on the server -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" respawn="false" output="screen">
+    <rosparam param="source_list">["/gazebo/get_joints"]</rosparam>
+  </node>
+
+  <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui"
+   respawn="false" output="screen" if="$(arg set_joints)">
+   <remap from="/joint_states" to="$(arg position_topic_name)"/>
+  </node>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+    respawn="false" output="screen">
+  </node>
+
+
+  <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF model -->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="-urdf -model sia5 -param robot_description" />
+    
+   <node if="$(arg joint_gui)" name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui">
+   	<remap  from="joint_states" to="joint_desidered_positions"/>
+   </node>
+
+  <!-- ros_control motoman launch file -->
+</launch>
