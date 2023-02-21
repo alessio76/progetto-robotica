@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+<gazebo>
+
+<!-- when this arg is true the simulation loads the plugin that enables direct control of joints' position --> 
+  <xacro:arg name="set_joints" default="false" />
+  <xacro:if value="$(arg set_joints)">
+  <plugin name="PositionSetterPlugin" filename="libPositionSetterPlugin.so"/>
+</xacro:if>
+
+  </gazebo>
+  </robot>

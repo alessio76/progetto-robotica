@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<robot name="sia5" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- File Include --> 
+  <xacro:include filename="$(find motoman_description)/robots/sia5/my_urdf/sia5.urdf.xacro" /> 
+  <xacro:include filename="$(find motoman_description)/robots/sia5/my_urdf/add_camera.urdf.xacro" /> 
+   <xacro:include filename="$(find motoman_description)/robots/sia5/my_urdf/camera.gazebo" />
+   
+</robot>

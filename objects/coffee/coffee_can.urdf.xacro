@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="coffee_can">
+<xacro:property name="mass" value="0.300"/>
+<xacro:property name="Ixx" value="0.000002"/>
+<xacro:property name="Ixy" value="0"/>
+<xacro:property name="Ixz" value="0"/>
+<xacro:property name="Iyy" value="0.000002"/>
+<xacro:property name="Iyz" value="0"/>
+<xacro:property name="Izz" value="0.000002"/>
+<xacro:property name="CoMx" value="-0.017071"/>
+<xacro:property name="CoMy" value="-0.009763"/>
+<xacro:property name="CoMz" value="0.070584"/>
+<xacro:property name="r" value="${0.102/2}"/>
+<xacro:property name="h" value="0.140177"/>
+<xacro:property name="file_path" value="urdf/objects/coffee/002_master_chef_can_google_16k/002_master_chef_can/google_16k/textured.dae"/>
+
+<link name="coffe">
+  <inertial>
+    <origin rpy="0 0 0" xyz="0 0 ${h/2}"/>
+    <mass value="${mass}"/>
+    <inertia ixx="${Ixx}" ixy="${Ixy}" ixz="${Ixz}" 
+    iyy="${Iyy}" iyz="${Iyz}" izz="${Izz}"/>
+  </inertial>
+  
+  <visual>
+     <origin rpy="0 0 0" xyz="${-CoMx} ${-CoMy} ${-CoMz+h/2}"/>
+     <geometry>
+     	<!--<cylinder radius="${r}" length="${h}"/> -->
+      <mesh filename="package://motoman_description/${file_path}"/>  
+    </geometry>
+   </visual>
+   
+  <collision>
+    <origin rpy="0 0 0" xyz="0 0 ${h/2}"/>
+     <geometry>
+       <cylinder radius="${r}" length="${h}"/>
+     </geometry>
+   </collision>
+   </link>
+   
+ </robot>
