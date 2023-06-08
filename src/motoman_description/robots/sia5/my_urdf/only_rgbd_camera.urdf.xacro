@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<robot name="rgbd_camera" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- File Include --> 
+  <xacro:include filename="$(find motoman_description)/robots/sia5/my_urdf/detached_rgbd_camera.urdf.xacro" /> 
+   <xacro:include filename="$(find motoman_description)/robots/sia5/my_urdf/rgbd_camera.gazebo" />
+   
+</robot>

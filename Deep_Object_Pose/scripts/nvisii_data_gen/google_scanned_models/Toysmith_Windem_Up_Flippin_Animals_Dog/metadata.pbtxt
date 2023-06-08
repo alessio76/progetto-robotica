@@ -1,0 +1,35 @@
+model {
+  file: "model.sdf"
+}
+name: "Toysmith_Windem_Up_Flippin_Animals_Dog"
+description: "Toysmith Wind\'em Up Flippin\' Animals, Dog"
+version: 1
+authors {
+  name: "Google"
+  email: "scanned-objects@google.com"
+}
+legal {
+  copyright: "Copyright 2020 Google LLC."
+  license: "Creative Commons Attribution 4.0 International"
+}
+annotations {
+  key: "brand"
+  value: "Toysmith"
+}
+annotations {
+  key: "gtin"
+  value: "00085761174566"
+}
+annotations {
+  key: "sku"
+  value: "00085761174566"
+}
+compatibilities {
+  name: "Gazebo"
+  version {
+    major: 11
+  }
+}
+categories {
+  first: "Consumer Goods"
+}

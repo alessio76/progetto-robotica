@@ -1,0 +1,39 @@
+model {
+  file: "model.sdf"
+}
+name: "ASICS_GELDirt_Dog_4_SunFlameBlack"
+description: "ASICS GEL-Dirt Dog\302\256 4 - Sun/Flame/Black\nCross-country racers who like the comfort and platform of a track spike along with superior comfort and durability, will love the all-new amazing upper we\'ve built into this popular performance favorite."
+version: 1
+authors {
+  name: "Google"
+  email: "scanned-objects@google.com"
+}
+legal {
+  copyright: "Copyright 2020 Google LLC."
+  license: "Creative Commons Attribution 4.0 International"
+}
+annotations {
+  key: "brand"
+  value: "Asics"
+}
+annotations {
+  key: "gtin"
+  value: "885681216014"
+}
+annotations {
+  key: "mpn"
+  value: "g106n.0321"
+}
+annotations {
+  key: "sku"
+  value: "2013-03-12-885681216014"
+}
+compatibilities {
+  name: "Gazebo"
+  version {
+    major: 11
+  }
+}
+categories {
+  first: "Shoe"
+}

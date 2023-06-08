@@ -1,0 +1,41 @@
+<launch>
+
+  <arg name="rviz_gui" default="True" />
+  <arg name="gazebo_gui" default="False" />
+  <arg name="view_segmentation" default="False" />
+  <!-- set this flag to visualize the segmentation mask -->
+  <arg name="set_debug" default="False" />
+  <arg name="set_joints" default="True" />
+  <arg name="min_num_pt" default="2500" /> 
+
+  <include file="$(find moto_project)/launch/common_estimation.launch">
+    <arg name="view_segmentation" value="$(arg view_segmentation)" />
+    <arg name="rviz_gui" default="$(arg rviz_gui)" />
+    <arg name="gazebo_gui" default="$(arg gazebo_gui)" />
+    <arg name="set_debug" default="$(arg set_debug)" />
+    <arg name="set_joints" default="$(arg set_joints)" />
+    
+  </include>
+
+  <!-- spawn pose_estimation node -->
+  <node name="pose_estimation_node" pkg="moto_project" type="DenseFusion_node.py" respawn="true"> 
+    
+    <!-- weigth of DenseFusion model-->
+    <param name="pose_model" value="/home/alessio/progetto_robotica/DenseFusion/trained_models/my_dataset/pose_model_49_0.0192243243732038.pth" />
+    <param name="pose_refine_model" value="/home/alessio/progetto_robotica/DenseFusion/trained_models/my_dataset/pose_refine_model_116_0.01558202758204158.pth" />
+
+    <!-- Camera parameters -->
+    <param name="cx" value="320" />
+    <param name="cy" value="240" />
+    <param name="fx" value="579.411376953125" />
+    <param name="fy" value="579.411376953125" />
+    <param name="cam_scale" value="1" />
+    <param name="minimum_num_pt" value="$(arg min_num_pt)" />    
+    <param name="refine_iteration" value="2" />
+    <param name="objects_of_interest" value="002_master_chef_can" />
+    <param name="base_path" value="/home/alessio/progetto_robotica/DenseFusion/datasets/my_dataset" />
+    <param name="view_segmentation" value="$(arg view_segmentation)" />
+    
+  </node>
+
+</launch>

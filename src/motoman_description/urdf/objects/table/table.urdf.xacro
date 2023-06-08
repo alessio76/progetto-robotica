@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="table">
+    <gazebo>
+        <static>true</static>
+    </gazebo>
+    
+    <xacro:property name="x_base_offset" value="0" />
+    <xacro:property name="y_base_offset" value="0" />
+    <xacro:property name="z_base_offset" value="0.02" />
+    <xacro:property name="x_base_dimension" value="0.2" />
+    <xacro:property name="y_base_dimension" value="0.2" />
+    <xacro:property name="z_base_dimension" value="0.04" />
+
+    <xacro:property name="column_h" value="0.2" />
+    <xacro:property name="x_base_column" value="0.042" />
+    <xacro:property name="y_base_column" value="${x_base_column}" />
+    <xacro:property name="z_max_column" value="${z_base_dimension + column_h}" />
+
+    <xacro:property name="x_surface_dimension" value="0.4" />
+    <xacro:property name="y_surface_dimension" value="0.4" />
+    <xacro:property name="z_surface_dimension" value="${z_base_dimension}" />
+    <xacro:property name="z_max_surface" value="${z_max_column + z_surface_dimension}" />
+
+
+    <xacro:macro name="table_block"
+        params="name x_dim y_dim z_dim x_offset y_offset z_offset">
+
+        <visual name="${name}">
+            <origin xyz="${x_offset} ${y_offset} ${z_offset}" rpy="0 0 0" />
+            <geometry>
+                <box size="${x_dim} ${y_dim} ${z_dim}" />
+            </geometry>
+        </visual>
+
+        <collision name="${name}">
+            <origin xyz="${x_offset} ${y_offset} ${z_offset}" rpy="0 0 0" />
+            <geometry>
+                <box size="${x_dim} ${y_dim} ${z_dim}" />
+            </geometry>
+        </collision>
+    </xacro:macro>
+
+    <link name="table_link">
+
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1" />
+            <inertia
+                ixx="0.05" ixy="0.0" ixz="0.0"
+                iyy="0.05" iyz="0.0"
+                izz="0.05" />
+        </inertial>
+
+        <xacro:table_block name="base" x_offset="0"
+            y_offset="${y_base_offset}" z_offset="${z_base_offset}"
+            x_dim="${x_base_dimension}"
+            y_dim="${y_base_dimension}" z_dim="${z_base_dimension}">
+        </xacro:table_block>
+
+        <xacro:table_block name="column"
+            x_offset="${x_base_offset}"
+            y_offset="${y_base_offset}" z_offset="${(z_max_column+z_base_dimension)/2}"
+            x_dim="${x_base_column}" y_dim="${y_base_column}" z_dim="${column_h}">
+        </xacro:table_block>
+
+        <xacro:table_block name="surface"
+            x_offset="${x_base_offset}" y_offset="${y_base_offset}"
+            z_offset="${(z_max_column +
+        z_max_surface)/2}"
+            x_dim="${x_surface_dimension}"
+            y_dim="${y_surface_dimension}" z_dim="${z_surface_dimension}">
+        </xacro:table_block>
+    </link>
+
+</robot>
