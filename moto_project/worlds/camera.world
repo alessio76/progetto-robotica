@@ -1,24 +1,19 @@
+
 <?xml version="1.0"?>
+<!--
+can_pose: x 0,354062, y -0,001990, z -0,000023, roll 0,000219, pitch 0,000192, yaw 0,088707
+-->
 <sdf version='1.6'>
   <world name='default'>
-    <model name='unit_box'>
-      <pose>0 0 2.5 0 -0 0</pose>
-      <link name='link'>
-        <visual name='visual'>
-          <geometry>
-            <box>
-              <size>1 1 1</size>
-            </box>
-          </geometry>
-        </visual>
-      </link>
-    </model>
-    <light name='user_directional_light_0' type='directional'>
-      <pose>0 0 1 0 0 0</pose>
+  <scene>
+      <shadows>false</shadows>
+    </scene>
+    <light name='light' type='point'>
+      <pose>-0.7 -0.12 0.7 0 0 0</pose>
     </light>
-    <model name='camera'>
+    <!-- <model name='camera'>
       <static>true</static>
-      <pose>-1 0 2 0 1 0</pose>
+      <pose>-0.715859 0 0.392294 0 0.354062 0</pose>
       <link name='link'>
         <visual name='visual'>
           <geometry>
@@ -27,15 +22,24 @@
             </box>
           </geometry>
         </visual>
-        <sensor name='my_camera' type='camera'>
+        <sensor name='my_camera' type='depth_camera'>
           <camera>
+          <lens>
+          <intrisics>
+     	   <fx>1066.778</fx>
+     	   <fy>1067.487</fy>
+     	   <cx>312.9869</cx>
+     	   <cy>241.3109</cy>
+          </intrisics>
+          </lens>
+          
             <save enabled="true">
               <path>/home/alessio/progetto_robotica/camera_save</path>
             </save>
             <horizontal_fov>1.047</horizontal_fov>
             <image>
-              <width>1920</width>
-              <height>1080</height>
+              <width>640</width>
+              <height>480</height>
             </image>
             <clip>
               <near>0.1</near>
@@ -43,9 +47,16 @@
             </clip>
           </camera>
           <always_on>1</always_on>
-          <update_rate>30</update_rate>
+          <update_rate>1</update_rate>
+          <visualize>true</visualize>
         </sensor>
       </link>
-    </model>
+    </model>-->
+     <include>
+      <uri>model://ground_plane</uri>
+    </include>
+    <include>
+      <uri>model://sun</uri>
+    </include>
   </world>
 </sdf>

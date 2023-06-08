@@ -42,14 +42,17 @@
   <rosparam param="joint_names">
     ["joint_s","joint_l","joint_e","joint_u","joint_r","joint_b","joint_t",]</rosparam>
 
+ 
+
   <!--joint_state_publisher reads its parameter "source_list" from the parameter server, so we need to load that on the server -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" respawn="false" output="screen">
-    <rosparam param="source_list">["/gazebo/get_joints"]</rosparam>
+    <rosparam param="source_list">["/gazebo/get_joints"]</rosparam> 
   </node>
 
   <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui"
    respawn="false" output="screen" if="$(arg set_joints)">
    <remap from="/joint_states" to="$(arg position_topic_name)"/>
+   <rosparam command="load" file="$(find moto_project)/config/initial.yaml" />
   </node>
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"

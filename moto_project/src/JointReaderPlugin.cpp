@@ -1,5 +1,4 @@
-/*This plugin publishes the joint variables on the topic /gazebo/get_joints, to which joint_states subscribes to and publishes the
-joint variables for the ros network */
+/*This plugin publishes the joint variables on the topic /gazebo/get_joints, to which joint_states subscribes to and publishes the joint variables for the ros network */
 
 #include "BasicPlugin.h"
 
