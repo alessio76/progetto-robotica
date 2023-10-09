@@ -1,0 +1,5 @@
+Per eseguire inferenza su immagini eseguire eval.sh e passare come argomenti:
+1) la cartella contenente le immagini
+2) la cartella in cui scrivere le immagini processate dalla rete
+
+Per visualizzare inferenza sulla singola immagine eseguire single_val.sh 
